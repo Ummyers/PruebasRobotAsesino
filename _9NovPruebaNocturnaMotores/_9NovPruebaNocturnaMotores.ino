@@ -8,7 +8,7 @@
 
 #define motor_p12 12
 #define motor_p13 13
-//Abajo
+//Abajo en la placa 
 #define motor_p9 9
 #define motor_p10 10
 
