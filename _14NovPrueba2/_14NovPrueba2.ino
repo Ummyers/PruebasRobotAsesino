@@ -24,7 +24,6 @@ const float sonido = 34300.0;
 int value = 30;
 int valueGiro = 50;
 int valueAsesinar = 80;
-
 /*
  * La comunicación serial es unicamente para las pruebas.
  */
@@ -37,43 +36,35 @@ void setup() {
   
   pinMode(TRIGGER, OUTPUT);
   pinMode(ECHO, INPUT);
-  
 }
 
 void loop() {
   iniciarTrigger();
+
   //Si tenemos pegado el robot empujar lo mas que se pueda
   //Implica cambio de velocidad
   float distanciaFin = calcularDistancia();
   if((distanciaFin > 30.00)&&(distanciaFin < 50.00)){
-    prender();
+    analogWrite(motor_p12, 0);
+    analogWrite(motor_p13, valueAsesinar);
+    analogWrite(motor_p9, 0);
+    analogWrite(motor_p10, valueAsesinar);
+    
+  }else{
+    //avanzaremos
+    analogWrite(motor_p12, 0);
+    analogWrite(motor_p13, 0);
+    analogWrite(motor_p9, 0);
+    analogWrite(motor_p10, 0);
   }
-  //avanzaremos
-  analogWrite(motor_p12, 0);
-  analogWrite(motor_p13, 0);
-  analogWrite(motor_p9, 0);
-  analogWrite(motor_p10, 0);
 }
-
 
 //---------------METODOS AUXILIARES---------------------------
-
-/*----------------------------------------------
- * Este metodo pretende tirar/sacar al oponente
- * --------------------------------------------
- */
-void prender(){
-  //avanzaremos
-  analogWrite(motor_p12, 0);
-  analogWrite(motor_p13, valueAsesinar);
-  analogWrite(motor_p9, 0);
-  analogWrite(motor_p10, valueAsesinar);
-}
-
  
 /*Devuelve un float que es el valor de la distancia de un objeto con respecto al robot
  * ----------------------------------------------------------------------------------
  */
+
 float calcularDistancia(){
   // La función pulseIn obtiene el tiempo que tarda en cambiar entre estados, en este caso a HIGH
   unsigned long tiempo = pulseIn(ECHO, HIGH); 
@@ -102,8 +93,5 @@ void iniciarTrigger()
   // Comenzamos poniendo el pin Trigger en estado bajo
   digitalWrite(TRIGGER, 0);
 }
-
-
-
 
 

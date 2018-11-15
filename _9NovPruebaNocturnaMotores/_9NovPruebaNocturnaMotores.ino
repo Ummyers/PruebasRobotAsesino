@@ -24,15 +24,14 @@ void setup() {
 }
 
 void loop() {
-  delay(2000);
+  delay(200);
   //Sirve para dar vueltas :D 
   analogWrite(motor_p12, 0);
   analogWrite(motor_p13, valueGiro);
-
   analogWrite(motor_p9, valueGiro);
   analogWrite(motor_p10, 0);
 
-  delay(1000);
+  delay(100);
 
   //Ir derecho 
     analogWrite(motor_p12, 0);
@@ -41,7 +40,7 @@ void loop() {
   analogWrite(motor_p9, 0);
   analogWrite(motor_p10, value);
 
-  delay(1000);
+  delay(100);
   
   //Ir de reversa
     analogWrite(motor_p12, value);
