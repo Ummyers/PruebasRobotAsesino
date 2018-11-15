@@ -1,8 +1,8 @@
-/* Prueba de vuelo 37, quinto dia, configuración Sabemos la verdad
+/* Prueba de vuelo 37, sexto  dia, configuración ya confesaron
 * Muñiz Patiño Andrea Fernanda
 * Versión 1.0
-* Sobre la práctica: 
-* Se programa el movimiento de los motores segun los valores del sonar de enfrente
+* Se agrego el delay del inicio, pero no se pudo realizar la prueba por el regulador
+* NOTA ADICIONAL: no pudimos tener configuración serial
 */
 //------------PINES-------------
 //La salida del trigger es la misma para los dos sonares.

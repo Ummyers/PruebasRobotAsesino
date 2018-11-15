@@ -1,8 +1,7 @@
 /* Prueba de vuelo 37, quinto dia, configuración Sabemos la verdad
 * Muñiz Patiño Andrea Fernanda
 * Versión 1.0
-* Sobre la práctica: 
-* Se programa el movimiento de los motores segun los valores del sonar de enfrente
+* Se arreglo lo del IF  ¬ ¬
 */
 
 //------------PINES-------------
