@@ -10,8 +10,8 @@ Asi como los siguientes componentes:
 2. Un regulador L7805CV que convierte 12V a 5V el cual usa un condensador #104 que va entre la salida y GND, un condensador #334 que es de 330 nanofaradios que se conecta con GND y la entrada de voltaje. 
 
 3. Para controlar los motores usamos un driver L293D, con los pines especificados de la siguiente manera:
-  1. Pines de entrada 2,7,15,10.
-  2. Pines de salida 3,6,14,11.
+   Pines de entrada 2,7,15,10.\\
+   Pines de salida 3,6,14,11.
 ETC...
 
 
