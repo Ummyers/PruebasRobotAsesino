@@ -1,15 +1,13 @@
 /* Prueba de vuelo 37, 
 * Muñiz Patiño Andrea Fernanda
-* Ultima modificación, 22 de Noviembre.
-* Se hicieron pruebas pues el pulso del trigger no se detectaba.
+* 18/Noviembre/2018
 */
 //------------PINES-------------
 //La salida del trigger es la misma para los dos sonares.
 #define TRIGGER 19 
 //Sonar localizado en el frente
-#define ECHO 14
+#define ECHO 15
 //Sonar localizado en la parte de atrás
-#define ECHO2 15
 
 //Arriba
 #define motor_p12 12
@@ -30,7 +28,6 @@ boolean espera = true;
  * La comunicación serial es unicamente para las pruebas.
  */
 void setup() {
-  Serial.begin(9600);
   pinMode(motor_p12, OUTPUT);  
   pinMode(motor_p13, OUTPUT);
   pinMode(motor_p9, OUTPUT);
@@ -38,26 +35,14 @@ void setup() {
   
   pinMode(TRIGGER, OUTPUT);
   pinMode(ECHO, INPUT);
-  pinMode(ECHO2, INPUT);
 }
 
 void loop() {
   iniciarTrigger();
-  
-  if(espera){
-    delay(100);
-    espera = false; 
-  }else{
-    //Si tenemos pegado el robot empujar lo mas que se pueda
-    float distanciaFrente = calcularDistanciaFrente();
-    //El siguiente if es para cuando el robot esta demasiado cerca
-   if((distanciaFrente >= 2.00)&&(distanciaFrente < 30.00)){
-          empujar(); 
-      }else{
-        girar();
-      }
-  } 
-}
+  empujar();  
+  girar();
+
+} 
 
 
 //---------------METODOS AUXILIARES---------------------------
@@ -65,6 +50,7 @@ void loop() {
  * 
 */
  void empujar(){
+    //Serial.println("EMPUJARRRRRR");
     analogWrite(motor_p12, 0);
     analogWrite(motor_p13, valueAsesinar);
     analogWrite(motor_p9, 0);
@@ -73,12 +59,12 @@ void loop() {
 /* Método GIRAR derecha/izquierda
 */
   void girar(){
+    //Serial.println("GIRANDOOOO");
       analogWrite(motor_p12, valueGiro);
       analogWrite(motor_p13, 0);      
       analogWrite(motor_p9, 0);
       analogWrite(motor_p10, valueGiro);  
-      //delay(100);
-      //En vez de poner delay, hay que regular la velocidad
+      delay(100);
 }
  
 /*Devuelve un float que es el valor de la distancia de un objeto con respecto al robot
@@ -86,13 +72,13 @@ void loop() {
  */
 float calcularDistanciaFrente(){
   // La función pulseIn obtiene el tiempo que tarda en cambiar entre estados, en este caso a HIGH
-  unsigned long tiempo = pulseIn(ECHO, HIGH ); 
+  unsigned long tiempo = pulseIn(ECHO, HIGH); 
   // Obtenemos la distancia en cm, hay que convertir el tiempo en segudos ya que está en microsegundos
   // por eso se multiplica por 0.000001
   float distancia = tiempo * 0.000001 * sonido / 2.0;
-  Serial.print(distancia);
-  Serial.print("cm");
-  Serial.println();
+  //Serial.print(distancia);
+  //Serial.print("cm");
+  //Serial.println();
   //delay(500);
   return distancia;
 }
@@ -110,4 +96,5 @@ void iniciarTrigger()
   // Comenzamos poniendo el pin Trigger en estado bajo
   digitalWrite(TRIGGER, 0);
 }
+
 
