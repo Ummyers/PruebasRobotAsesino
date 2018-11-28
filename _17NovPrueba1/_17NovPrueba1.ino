@@ -1,15 +1,15 @@
 /* Prueba de vuelo 37, 
 * Muñiz Patiño Andrea Fernanda
-* Ultima modificación, 22 de Noviembre.
+* Ultima modificación, 23 de Noviembre. Revisar comentarios
 * Se hicieron pruebas pues el pulso del trigger no se detectaba.
 */
 //------------PINES-------------
 //La salida del trigger es la misma para los dos sonares.
 #define TRIGGER 19 
 //Sonar localizado en el frente
-#define ECHO 14
+#define ECHO 15
 //Sonar localizado en la parte de atrás
-#define ECHO2 15
+#define ECHO2 14
 
 //Arriba
 #define motor_p12 12
@@ -24,7 +24,7 @@
 const float sonido = 34300.0;
 int value = 70;
 int valueGiro = 100;
-int valueAsesinar = 150;
+int valueAsesinar = 220;
 boolean espera = true;
 /*
  * La comunicación serial es unicamente para las pruebas.
@@ -45,7 +45,8 @@ void loop() {
   iniciarTrigger();
   
   if(espera){
-    delay(100);
+    //Debe esperar 5 segundos 
+    delay(1000);
     espera = false; 
   }else{
     //Si tenemos pegado el robot empujar lo mas que se pueda
@@ -77,7 +78,7 @@ void loop() {
       analogWrite(motor_p13, 0);      
       analogWrite(motor_p9, 0);
       analogWrite(motor_p10, valueGiro);  
-      //delay(100);
+      delay(100);
       //En vez de poner delay, hay que regular la velocidad
 }
  

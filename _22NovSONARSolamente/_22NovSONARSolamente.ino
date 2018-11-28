@@ -3,7 +3,7 @@
  * Noviembre 22, 2018. 
  * 
  */
-
+ 
 //------------PINES-------------
 //La salida del trigger es la misma para los dos sonares.
 #define TRIGGER 19 
@@ -17,7 +17,6 @@ void setup() {
   Serial.begin(9600);
   pinMode(TRIGGER, OUTPUT);
   pinMode(ECHO, INPUT);
-
 }
 
 void loop(){
@@ -30,11 +29,11 @@ float calcularDistanciaFrente(){
   unsigned long tiempo = pulseIn(ECHO, HIGH, 30000); 
   // Obtenemos la distancia en cm, hay que convertir el tiempo en segudos ya que está en microsegundos
   // por eso se multiplica por 0.000001
-  float distancia = tiempo * 0.000001 * sonido / 2.0;
+  float distancia = tiempo / 58.00; 
   Serial.print(distancia);
   Serial.print("cm");
   Serial.println();
-  //delay(500);
+  delay(500);
   return distancia;
 }
 /*Metodo que inicia la secuencia del sonar
