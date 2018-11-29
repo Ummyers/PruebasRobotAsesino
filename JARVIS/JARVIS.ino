@@ -40,6 +40,8 @@ int valueGiro = 120;
 int valueGiroLL = 250;
 int valueAsesinar = 250;
 
+int tiempoTornado = 0;
+
 // Variables para la calibración
 //float minAr = 1023.0;
 //float maxAr = 0.0;
@@ -107,6 +109,14 @@ void loop() {
           empujar(true); 
       }else{
         girar();
+        tiempoTornado++;
+        if(tiempoTornado >= 300){
+          analogWrite(motor_p13, 80);
+          analogWrite(motor_p12, 0);
+          analogWrite(motor_p9, 80); 
+          analogWrite(motor_p10, 0);
+          tiempoTornado = 0;
+        }
       }
     }else{ 
       //Retrocede y luego gira, para no caer xD supuestamente
