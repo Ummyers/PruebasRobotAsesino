@@ -1,17 +1,39 @@
-/* Prueba de vuelo 37, 
-* Muñiz Patiño Andrea Fernanda
-* Ultima modificación, 23 de Noviembre. Revisar comentarios
-* Se hicieron pruebas pues el pulso del trigger no se detectaba.
+/* 
+ *   Facultad de Ciencias, UNAM
+ *  @Autor Muñiz Patiño, Andrea Fernanda
+ *  @Fecha 28/Novimebre/2018
+ *  @versión 3.0
+*                        LLANTA
+* -----------------------------
+* -                           - 
+* -                           -
+* -S P                      S P         
+* -O I                      O I
+* -N N                      N N
+* -A 1                      A 1
+* -R 4                      R 5
+* -                           - 
+* -                           - 
+* ------------------------------
+*                         LLANTA                        
 */
 //------------PINES-------------
 //La salida del trigger es la misma para los dos sonares.
 #define TRIGGER 19 
 //Sonar localizado en el frente
-#define ECHO 15
+#define ECHO 14
 //Sonar localizado en la parte de atrás
-#define ECHO2 14
 
-//Arriba
+//---------INFRARROJOS------------
+//Infrarrojo Arriba BETA
+#define infraArriba 5
+//Infrarrojo Abajo GAMMA
+#define infraAbajo  2
+//Infrarrojo Cental ALFA
+#define infraCentral 7
+
+//-----------MOTORES---------------
+//Arriba 
 #define motor_p12 12
 #define motor_p13 13
 //Abajo en la placa 
@@ -22,59 +44,74 @@
 //-------Variables-------------
 //Variable para calcular la distancia del robot enemigo
 const float sonido = 34300.0;
-int value = 70;
-int valueGiro = 100;
-int valueAsesinar = 220;
-boolean espera = true;
-/*
- * La comunicación serial es unicamente para las pruebas.
+int valueGiro = 75;
+/* El motor de los pines 11 y 12
+ * esta chueco por lo cual hay que compensar la falta de fuerza 
+ * para eso la nueva variable
  */
+int valueGiroLL = 150;
+int valueAsesinar = 120;
+
 void setup() {
   Serial.begin(9600);
   pinMode(motor_p12, OUTPUT);  
   pinMode(motor_p13, OUTPUT);
   pinMode(motor_p9, OUTPUT);
   pinMode(motor_p10, OUTPUT);  
+  
   pinMode(TRIGGER, OUTPUT);
   pinMode(ECHO, INPUT);
-  pinMode(ECHO2, INPUT);
+
+  pinMode(infraArriba, INPUT);
+  pinMode(infraAbajo, INPUT);
+  pinMode(infraCentral, INPUT); 
+  //PODEMOS hacer la calibración aqui
+  //---------------------------------
+  
+  delay(3000);
 }
 
 void loop() {
-  iniciarTrigger();
-  
-  if(espera){
-    //Debe esperar 5 segundos 
-    delay(1000);
-    espera = false; 
-  }else{
+  iniciarTrigger();  
     //Si tenemos pegado el robot empujar lo mas que se pueda
     float distanciaFrente = calcularDistanciaFrente();
     //El siguiente if es para cuando el robot esta demasiado cerca
-   if((distanciaFrente >= 2.00)&&(distanciaFrente < 30.00)){
-          empujar(); 
+    //SE DISMINUYE EL INTEVALO PARA PRUEBA D GIRO
+   if((distanciaFrente >= 2.00)&&(distanciaFrente < 33.00)){
+          empujar(true); 
       }else{
         girar();
       }
-  } 
-}
+}//END LOOP
 
 
 //---------------METODOS AUXILIARES---------------------------
-/* Método que intenta sacar al enemigo de la pista
- * 
+/* Método que intenta sacar al enemigo de la pista, aumentando la velocidad
+ * @param boolean direccion
+ * TRUE empuja hacia adelante
+ * FALSE empuja hacia atrás
 */
- void empujar(){
-    analogWrite(motor_p12, 0);
-    analogWrite(motor_p13, valueAsesinar);
-    analogWrite(motor_p9, 0);
-    analogWrite(motor_p10, valueAsesinar);
+ void empujar(boolean direccion){
+  int a = 0;
+  int b = 0;
+  if(direccion){
+    b = valueAsesinar;
+  }else{
+    a = valueAsesinar;
+  }
+    analogWrite(motor_p12, a);
+    analogWrite(motor_p13, b);
+    
+    analogWrite(motor_p9, a);
+    analogWrite(motor_p10, b);
+    
 }
 /* Método GIRAR derecha/izquierda
 */
   void girar(){
-      analogWrite(motor_p12, valueGiro);
-      analogWrite(motor_p13, 0);      
+      analogWrite(motor_p12, valueGiroLL);
+      analogWrite(motor_p13, 0);  
+          
       analogWrite(motor_p9, 0);
       analogWrite(motor_p10, valueGiro);  
       delay(100);
@@ -90,10 +127,6 @@ float calcularDistanciaFrente(){
   // Obtenemos la distancia en cm, hay que convertir el tiempo en segudos ya que está en microsegundos
   // por eso se multiplica por 0.000001
   float distancia = tiempo * 0.000001 * sonido / 2.0;
-  Serial.print(distancia);
-  Serial.print("cm");
-  Serial.println();
-  //delay(500);
   return distancia;
 }
 /*Metodo que inicia la secuencia del sonar
