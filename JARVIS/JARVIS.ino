@@ -67,7 +67,7 @@ void setup() {
   pinMode(infraArriba, INPUT);
   pinMode(infraAbajo, INPUT);
   pinMode(infraCentral, INPUT);
-  while (millis() < 4000) {
+  while (millis() < 2500) {
       calibrar();
     }//END Millis WHILE
     
